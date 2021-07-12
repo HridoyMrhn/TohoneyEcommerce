@@ -18,26 +18,26 @@
                         <thead class="text-capitalize">
                             <tr>
                                 <th scope="col">No</th>
-                            <th scope="col">Author</th>
-                            <th scope="col">Designation</th>
-                            <th scope="col">Image</th>
-                            <th scope="col">info</th>
-                            <th scope="col">Action</th>
+                                <th scope="col">Author</th>
+                                <th scope="col">Designation</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">info</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
+
+
+
                             @forelse ($testimonials as $data)
                             <tr>
                                 <td>{{ $testimonials->firstItem() + $loop->index }}</td>
-                                <td>{{ $data->name }}</td>
-                                <td>{{ $data->purchase_amount }}৳</td>
-                                <td>{{ $data->discount_amonut }}%</td>
-                                <td>{{ $data->validity }}</td>
+                                <td>{{ $data->author_name }}</td>
+                                <td>{{ $data->author_designation }}</td>
                                 <td>
-                                    <img src="{{ asset('uploads/testimonial/'.$data->image) }}" alt="{{ $data->name }}" class="rounded-circle" style="width:50px; heigth:50px;">
+                                    <img src="{{ asset('uploads/testimonial/'.$data->author_image) }}" alt="{{ $data->author_name }}" class="rounded-circle" style="width:50px; heigth:50px;">
                                 </td>
-                                <td>{{ Str::limit($data->description, 40, '...') }}</td>
-                                <td><span class="badge badge-success">{{ $data->status }}</span></td>
+                                <td>{{ $data->author_quote }}</td>
                                 <td>
                                     <div class="btn-group btn-group-sm" role="group">
                                         <a href="#editModal{{ $data->id }}" data-toggle="modal" class="btn btn-success"><i class="fa fa-edit"></i></a>
@@ -61,49 +61,26 @@
                                             @method('PUT')
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    <label for="name">testimonial Name</label>
-                                                    <input type="text" class="form-control" name="name" value="{{ $data->name }}" id="name" placeholder="Enter testimonial Name">
-                                                    @error('name')
-                                                        <b class="text-danger">{{ $message }}</b>
+                                                    <label for="author_name" class="form-label">Testimonial Author Name</label>
+                                                    <input type="text" class="form-control" name="author_name" id="author_name" value="{{ $data->author_name }}" placeholder="Enter Testimonial Author Name">
+                                                    @error('author_name')
+                                                    <b class="text-danger font-weight-bold">{{ $message }}</b>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="purchase_amount">Purchase Amount</label>
-                                                    <input type="number" class="form-control" name="purchase_amount" id="purchase_amount" value="{{ $data->purchase_amount }}" placeholder="Purchase Amount">
-                                                    @error('purchase_amount')
-                                                        <b class="text-danger">{{ $message }}</b>
+                                                    <label for="author_designation" class="form-label">Author Designation</label>
+                                                    <input type="text" class="form-control" name="author_designation" id="author_designation" value="{{ $data->author_designation }}" placeholder="Author Designation">
+                                                    @error('author_designation')
+                                                    <b class="text-danger font-weight-bold">{{ $message }}</b>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="discount_amonut">Discount Amonut</label>
-                                                    <input type="text" class="form-control" name="discount_amonut" id="discount_amonut" value="{{ $data->discount_amonut }}" placeholder="Enter Discount Amonut"
-                                                        value="{{ old('discount_amonut') }}">
-                                                    @error('discount_amonut')
-                                                        <b class="text-danger">{{ $message }}</b>
-                                                    @enderror
+                                                    <label for="author_image" class="form-label">Testimonial image</label>
+                                                    <input type="file" class="form-control" name="author_image" id="author_image" accept="image">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="validity">testimonial Validity Date</label>
-                                                    <input type="date" class="form-control" name="validity" id="validity" value="{{ $data->validity }}">
-                                                    @error('validity')
-                                                        <b class="text-danger">{{ $message }}</b>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="image">Image</label>
-                                                    <input type="file" accept="image/*" class="form-control" name="image" id="image">
-                                                    @error('image')
-                                                        <b class="text-danger">{{ $message }}</b>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="description">Description</label>
-                                                    <textarea name="description" id="description" class="form-control" rows="5" placeholder="Enter testimonial Description">{{ $data->description }}</textarea>
-                                                    @error('description')
-                                                        <b class="text-danger">{{ $message }}</b>
-                                                    @enderror
+                                                    <label for="author_quote" class="form-label">Testimonial Quote</label>
+                                                    <textarea name="author_quote" id="author_quote" class="form-control"  rows="5" placeholder="Testimonial Quiote Here">{{ $data->author_quote }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -129,7 +106,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <div class="modal-body">
-                                               <h3 class="text-center text-danger">Are You Sure Delete This testimonial!?</h3>
+                                               <h3 class="text-center text-danger">Are You Sure Delete This Testimonial!?</h3>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -139,7 +116,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                             @empty
                             <tr>
@@ -172,50 +148,27 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">testimonial Name</label>
-                        <input type="text" class="form-control" name="name"
-                            id="name" placeholder="Enter testimonial Name">
-                        @error('name')
-                            <b class="text-danger">{{ $message }}</b>
+                        <label for="author_name" class="form-label">Testimonial Author Name</label>
+                        <input type="text" class="form-control" name="author_name" id="author_name" placeholder="Enter Testimonial Author Name">
+                        @error('author_name')
+                        <b class="text-danger font-weight-bold">{{ $message }}</b>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="purchase_amount">Purchase Amount</label>
-                        <input type="number" class="form-control" name="purchase_amount" id="purchase_amount" placeholder="Purchase Amount">
-                        @error('purchase_amount')
-                            <b class="text-danger">{{ $message }}</b>
+                        <label for="author_designation" class="form-label">Author Designation</label>
+                        <input type="text" class="form-control" name="author_designation" id="author_designation"
+                            placeholder="Author Designation">
+                        @error('author_designation')
+                        <b class="text-danger font-weight-bold">{{ $message }}</b>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="discount_amonut">Discount Amonut</label>
-                        <input type="text" class="form-control" name="discount_amonut" id="discount_amonut" placeholder="Enter Discount Amonut"
-                            value="{{ old('discount_amonut') }}">
-                        @error('discount_amonut')
-                            <b class="text-danger">{{ $message }}</b>
-                        @enderror
+                        <label for="author_image" class="form-label">Testimonial image</label>
+                        <input type="file" class="form-control" name="author_image" id="author_image" accept="image">
                     </div>
                     <div class="form-group">
-                        <label for="validity">testimonial Validity Date</label>
-                        <input type="date" class="form-control" name="validity" id="validity" value="{{ old('validity') }}">
-                        @error('validity')
-                            <b class="text-danger">{{ $message }}</b>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label for="image">Image</label>
-                        <input type="file" accept="image/*" class="form-control" name="image" id="image">
-                        @error('image')
-                            <b class="text-danger">{{ $message }}</b>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea name="description" id="description" class="form-control" rows="5" placeholder="Enter testimonial Description">{{ old('description') }}</textarea>
-                        @error('description')
-                            <b class="text-danger">{{ $message }}</b>
-                        @enderror
+                        <label for="author_quote" class="form-label">Testimonial Quote</label>
+                        <textarea name="author_quote" id="author_quote" class="form-control"  rows="5" placeholder="Testimonial Quiote Here"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -124,4 +124,21 @@ class CuponController extends Controller
         session()->flash('b_status', 'Cupon has been Deleted!');
         return back();
     }
+
+
+    public function active($id){
+        Cupon::findOrFail($id)->update([
+            'status' => 'active'
+        ]);
+        session()->flash('s_status', 'Cupon has been Activate!');
+        return back();
+    }
+
+    public function deactive($id){
+        Cupon::findOrFail($id)->update([
+            'status' => 'deactive'
+        ]);
+        session()->flash('b_status', 'Cupon has been Deactivate!');
+        return back();
+    }
 }

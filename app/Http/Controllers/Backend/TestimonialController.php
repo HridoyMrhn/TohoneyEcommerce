@@ -39,16 +39,16 @@ class TestimonialController extends Controller
     public function store(Request $request)
     {
         $file_name = 'default.png';
-        if(request()->hasFile('image')){
-            $file = request()->file('image');
+        if(request()->hasFile('author_image')){
+            $file = request()->file('author_image');
             if($file->isValid()){
                 $file_type = $file->getClientOriginalExtension();
                 $file_name = date('Ymdhms').'.'.$file_type;
                 $file->storeAs('testimonial', $file_name);
             }
         }
-        Testimonial::create($request->except('_token', 'image') + [
-            'image' => $file_name,
+        Testimonial::create($request->except('_token', 'author_image') + [
+            'author_image' => $file_name,
         ]);
         session()->flash('s_status', 'Testimonial has been Added!');
         return back();
@@ -86,11 +86,11 @@ class TestimonialController extends Controller
     public function update(Request $request, $id)
     {
         $testimonial = Testimonial::findOrFail($id);
-        $file_name = $testimonial->image;
+        $file_name = $testimonial->author_image;
         $file_path = public_path('uploads/testimonial/'.$file_name);
 
-        if(request()->hasFile('image')){
-            $file = request()->file('image');
+        if(request()->hasFile('author_image')){
+            $file = request()->file('author_image');
             if($file->isValid()){
                 if($file_name != 'default.png'){
                     @unlink($file_path);
@@ -100,8 +100,8 @@ class TestimonialController extends Controller
                 $file->storeAs('testimonial', $file_name);
             }
         }
-        $testimonial->update($request->except('_token', 'image') + [
-            'image' => $file_name
+        $testimonial->update($request->except('_token', 'author_image') + [
+            'author_image' => $file_name
         ]);
         session()->flash('s_status', 'Testimonial has been Updated!');
         return back();
@@ -115,7 +115,7 @@ class TestimonialController extends Controller
      */
     public function destroy(Testimonial $testimonial)
     {
-        $file_name = $testimonial->image;
+        $file_name = $testimonial->author_image;
         $file_path = public_path('uploads/testimonial/'.$file_name);
         if($file_name != 'default.png'){
             @unlink($file_path);

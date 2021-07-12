@@ -38,7 +38,7 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
-        $file_name = '';
+        $file_name = 'banner.png';
         if(request()->hasFile('image')){
             $file = request()->file('image');
             if($file->isValid()){
@@ -122,6 +122,23 @@ class BannerController extends Controller
         }
         $banner->delete();
         session()->flash('b_status', 'Banner has been Deleted!');
+        return back();
+    }
+
+
+    public function active($id){
+        Banner::findOrFail($id)->update([
+            'status' => 'active'
+        ]);
+        session()->flash('s_status', 'Banner has been Activate!');
+        return back();
+    }
+
+    public function deactive($id){
+        Banner::findOrFail($id)->update([
+            'status' => 'deactive'
+        ]);
+        session()->flash('b_status', 'Banner has been Deactivate!');
         return back();
     }
 }

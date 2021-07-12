@@ -20,6 +20,9 @@
                         <li class="{{ Route::is('product.*') ? 'active':'' }}">
                             <a href="{{ route('product.index') }}" aria-expanded="true"><i class="ti-dashboard"></i><span> Product</span></a>
                         </li>
+                        <li class="{{ Route::is('testimonial.*') ? 'active':'' }}">
+                            <a href="{{ route('testimonial.index') }}" aria-expanded="true"><i class="ti-dashboard"></i><span> Testimonial</span></a>
+                        </li>
                         <li>
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Charts</span></a>
                             <ul class="collapse">

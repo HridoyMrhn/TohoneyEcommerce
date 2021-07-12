@@ -40,7 +40,13 @@
                                     <img src="{{ asset('uploads/Cupon/'.$data->image) }}" alt="{{ $data->name }}" class="rounded-circle" style="width:50px; heigth:50px;">
                                 </td>
                                 <td>{{ Str::limit($data->description, 40, '...') }}</td>
-                                <td><span class="badge badge-success">{{ $data->status }}</span></td>
+                                <td>
+                                    @if ($data->status == 'active')
+                                        <a href="{{ route('cupon.deactive', $data->id) }}"><span class="badge badge-success">{{ $data->status }}</span></a>
+                                    @elseif ($data->status == 'deactive')
+                                    <a href="{{ route('cupon.active', $data->id) }}"><span class="badge badge-danger">{{ $data->status }}</span></a>
+                                    @endif
+                                </td>
                                 <td>
                                     <div class="btn-group btn-group-sm" role="group">
                                         <a href="#editModal{{ $data->id }}" data-toggle="modal" class="btn btn-success"><i class="fa fa-edit"></i></a>
@@ -142,7 +148,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                             @empty
                             <tr>

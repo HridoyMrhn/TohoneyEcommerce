@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\CuponController;
 use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\TestimonialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,14 @@ Route::prefix('admin')->group(function() {
 
     //========================= Banner Controller
     Route::resource('banner', BannerController::class);
+    Route::get('banner/active/{id}', [BannerController::class, 'active'])->name('banner.active');
+    Route::get('banner/deactive/{id}', [BannerController::class, 'deactive'])->name('banner.deactive');
 
     //========================= Cupon Controller
     Route::resource('cupon', CuponController::class);
+    Route::get('cupon/active/{id}', [CuponController::class, 'active'])->name('cupon.active');
+    Route::get('cupon/deactive/{id}', [CuponController::class, 'deactive'])->name('cupon.deactive');
+
+    //========================= Testimonial Controller
+    Route::resource('testimonial', TestimonialController::class);
 });

@@ -43,7 +43,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $file_name = '';
+        $file_name = 'default.png';
         if(request()->hasFile('image')){
             $file = request()->file('image');
             if($file->isValid()){
@@ -107,8 +107,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
-        // die();
         $product = Product::findOrFail($id);
         // dd($product->multipleImage);
         $file_name = $product->image;

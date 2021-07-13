@@ -78,27 +78,26 @@
                         <ul class="d-flex account_login-area">
                             @guest
                                 <li>
-                                    <a href="javascript:void(0);"><i class="fa fa-user"></i> My Account
-                                        <i class="fa fa-angle-down"></i></a>
-                                    <ul class="dropdown_style">
-                                        <li><a href="{{ route('user.login') }}">Login</a></li>
-                                        <li><a href="{{ route('user.registration') }}">Register</a></li>
-                                    </ul>
+                                    <a href="{{ route('login') }}">
+                                        <i class="fa fa-sign-in"></i> Login</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('login') }}">Login</a>
+                                    <a href="{{ route('register') }}">
+                                        <i class="fa fa-user-plus"></i> Register</a>
                                 </li>
                             @endguest()
 
                             @auth
+                                <li><a href="{{ route('profile', auth()->user()->user_name) }}">{{ auth()->user()->name }}</a></li>
                                 <li>
-                                    <a href="javascript:void(0);"><i class="fa fa-user"></i>My info
-                                        <i class="fa fa-angle-down"></i></a>
-                                    <ul class="dropdown_style">
-                                        <li><a href="{{ route('cart') }}">Cart</a></li>
-                                    </ul>
+                                    <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                        <i class="fa fa-sign-out"></i> Logout
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                                 </li>
-                                <li><a href="">{{ auth()->user()->name }}</a></li>
                             @endauth
                         </ul>
                     </div>

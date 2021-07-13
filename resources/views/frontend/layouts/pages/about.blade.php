@@ -1,18 +1,8 @@
 @extends('frontend.master')
-@section('about')
-active
-@endsection
 
-@section('page_header')
-About
-@endsection
-
-@section('page_name')
-About
-@endsection
 @section('content')
 
-<div class="about-area ptb-100">
+<div class="about-area  my-5">
     <div class="container">
         <div class="row">
             <div class="col-12">

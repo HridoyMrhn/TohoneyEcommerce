@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -52,7 +53,8 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'phone_number' => ['required', 'max:15']
         ]);
     }
 
@@ -64,10 +66,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // dd(request()->all());
+        // die();
+        $file_name = 'default.png';
+        if(request()->hasFile('image')){
+            $file = request()->file('image');
+            if($file->isValid()){
+                $file_type = $file->getClientOriginalExtension();
+                $file_name = date('Ymdhms').'.'.$file_type;
+                $file->storeAs('user', $file_name);
+            }
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'phone_number' => $data['phone_number'],
+            'address' => $data['address'],
+            'about' => $data['about'],
+            'about' => $data['about'],
+            'user_name' => Str::slug($data['name']),
+            'image' => $file_name
         ]);
     }
 }

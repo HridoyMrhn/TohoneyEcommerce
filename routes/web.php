@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\ContactController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\TestimonialController;
+use App\Http\Controllers\Frontend\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 //================ Frontend all Controller =================
+
+//========================= Index Controller
 Route::get('/', [IndexController::class, 'index'])->name('index');
 Route::get('/cart', [IndexController::class, 'cart'])->name('cart');
 Route::get('/shop', [IndexController::class, 'shop'])->name('shop');
@@ -40,6 +43,11 @@ Route::get('/contact-us', [IndexController::class, 'contact'])->name('contact');
 Route::post('contact/store', [IndexController::class, 'contactStore'])->name('contact.store');
 Route::get('product/{slug}', [IndexController::class, 'productDetails'])->name('product.details');
 Route::get('category/{slug}', [IndexController::class, 'productCategory'])->name('product.category');
+
+//========================= User Controller
+Route::get('profile', [UserController::class, 'profile'])->name('profile');
+Route::post('profile/update/', [UserController::class, 'updateProfile'])->name('profile.update');
+Route::post('password/update/', [UserController::class, 'updatePassword'])->name('password.update');
 
 
 

@@ -42,9 +42,11 @@
                                 <td>{{ Str::limit($data->description, 40, '...') }}</td>
                                 <td>
                                     @if ($data->status == 'active')
-                                        <a href="{{ route('cupon.deactive', $data->id) }}"><span class="badge badge-success">{{ $data->status }}</span></a>
+                                        <a href="{{ route('cupon.deactive', $data->id) }}"><span class="badge badge-success">{{ $data->status }}</span>
+                                        </a>
                                     @elseif ($data->status == 'deactive')
-                                    <a href="{{ route('cupon.active', $data->id) }}"><span class="badge badge-danger">{{ $data->status }}</span></a>
+                                        <a href="{{ route('cupon.active', $data->id) }}"><span class="badge badge-danger">{{ $data->status }}</span>
+                                        </a>
                                     @endif
                                 </td>
                                 <td>

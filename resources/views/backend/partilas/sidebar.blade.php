@@ -8,6 +8,10 @@
                         <li class="{{ Route::is('dashbaord') ? 'active':'' }}">
                             <a href="{{ route('dashbaord') }}" aria-expanded="true"><i class="ti-dashboard"></i><span> dashboard</span></a>
                         </li>
+                        <li>
+                            <a href="{{ route('index') }}" target="_blank"><i class="ti-dashboard"></i><span> Frontend</span></a>
+                        </li>
+                        <hr>
                         <li class="{{ Route::is('banner.*') ? 'active':'' }}">
                             <a href="{{ route('banner.index') }}" aria-expanded="true"><i class="ti-dashboard"></i><span> Banner</span></a>
                         </li>
@@ -22,6 +26,9 @@
                         </li>
                         <li class="{{ Route::is('testimonial.*') ? 'active':'' }}">
                             <a href="{{ route('testimonial.index') }}" aria-expanded="true"><i class="ti-dashboard"></i><span> Testimonial</span></a>
+                        </li>
+                        <li class="{{ Route::is('contact.*') ? 'active':'' }}">
+                            <a href="{{ route('contact.index') }}" aria-expanded="true"><i class="ti-dashboard"></i><span> Contact</span></a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Charts</span></a>

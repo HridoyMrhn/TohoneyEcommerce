@@ -45,7 +45,7 @@
                                 </td>
                                 <td>{{ $data->price }}</td>
                                 <td>{{ $data->quantity }}</td>
-                                <td>{{ $data->short_description }}</td>
+                                <td>{{ Str::limit($data->short_description, 40, '...') }}</td>
                                 <td>
                                     <div class="btn-group btn-group-sm" role="group">
                                         <a href="" data-toggle="modal" class="btn btn-dark"><i class="fa fa-eye"></i></a>

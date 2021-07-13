@@ -54,7 +54,7 @@ class ProductController extends Controller
         }
         $product = Product::insertGetId($request->except('_token', 'image', 'multiple_image') + [
             'image' => $file_name,
-            'slug' => Str::slug($request->name).Str::random(6),
+            'slug' => Str::slug($request->name).'-'.Str::random(6),
             'created_at' => Carbon::now()
         ]);
 
@@ -72,8 +72,8 @@ class ProductController extends Controller
                 }
             }
         }
-        session()->flash('s_status', 'Product has been Added!');
-        return back();
+        // session()->flash('s_status', 'Product has been Added!');
+        // return back();
     }
 
     /**

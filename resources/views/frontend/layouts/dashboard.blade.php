@@ -49,7 +49,7 @@ Ecommerce
                                     <h3>Your Order</h3>
                                 </div>
                                 <div class="card-body p-1">
-                                    <table id="datatable" class="table table-striped">
+                                    <table id="datatable" class="table table-striped table-bordered mb-0">
                                         <thead>
                                             <tr>
                                                 <th scope="col">No</th>
@@ -59,11 +59,13 @@ Ecommerce
                                                 <th scope="col">Discount</th>
                                                 <th scope="col">Total</th>
                                                 <th scope="col">Payment</th>
+                                                <th scope="col">Transaction_id</th>
                                                 <th scope="col">Acton</th>
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             @forelse ($orders as $key => $data)
+                                            {{-- {{ $orders->orderDetails }} --}}
                                             <tr>
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $data->created_at->format('Y-m-d') }}</td>
@@ -71,11 +73,12 @@ Ecommerce
                                                 <td>{{ $data->subtotal }}</td>
                                                 <td>{{ $data->discount_amount }}</td>
                                                 <td>{{ $data->total }}</td>
-                                                <td>{{ $data->payment_gatway_name }}</td>
+                                                <td>{{ $data->payment_gateway }}</td>
+                                                <td>{{ $data->transaction_id }}</td>
                                                 <td>
-                                                    <div class="btn-group btn-group-sm" role="group">
-                                                        <a href="{{ route('invoice.download', $data->id) }}" class="btn btn-secondary">invoice</a>
-                                                        <a href="{{ route('cupon.edit', $data->id) }}" class="btn btn-secondary">Edit</a>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="{{ route('invoice.show', $data->id) }}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                                                        <a href="{{ route('invoice.download', $data->id) }}" class="btn btn-secondary"><i class="fa fa-download"></i></a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -87,7 +90,7 @@ Ecommerce
                                                 </td>
                                             </tr>
                                             @endforelse
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -98,6 +101,8 @@ Ecommerce
         </div>
     </div>
 </div>
+
+
 
 <!-- Profile Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog">

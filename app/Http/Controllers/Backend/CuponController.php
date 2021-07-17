@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Cupon;
 use Illuminate\Http\Request;
+use App\Http\Requests\CuponForm;
 use App\Http\Controllers\Controller;
 
 class CuponController extends Controller
@@ -36,7 +37,7 @@ class CuponController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CuponForm $request)
     {
         $file_name = 'cupon.png';
         if(request()->hasFile('image')){
@@ -50,8 +51,8 @@ class CuponController extends Controller
         Cupon::create($request->except('_token', 'image') + [
             'image' => $file_name,
         ]);
-        // session()->flash('s_status', 'cupon has been Added!');
-        // return back();
+        session()->flash('s_status', 'cupon has been Added!');
+        return back();
     }
 
     /**
@@ -85,6 +86,13 @@ class CuponController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|unique:cupons,name,'.$id,
+            'purchase_amount' => 'required',
+            'discount_amonut' => 'required',
+            'validity' => 'required',
+        ]);
+
         $cupon = Cupon::findOrFail($id);
         $file_name = $cupon->image;
         $file_path = public_path('uploads/cupon/'.$file_name);

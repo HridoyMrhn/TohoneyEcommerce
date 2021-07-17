@@ -5,6 +5,9 @@
 <!-- single-product-area start-->
 <div class="single-product-area ptb-100">
     <div class="container">
+        <div class="mx-auto mt-5 text-center col-6">@include('backend.components.status')
+        </div>
+
         <div class="row">
             <div class="col-lg-6">
                 <div class="product-single-img">
@@ -44,11 +47,11 @@
                     </div>
                     <p>{{ $products->short_description }}</p>
                     <ul class="input-style">
-                        <form action="{{ route('cart') }}" method="get">
+                        <form action="{{ route('cart.store') }}" method="POST">
                             @csrf
                             <input type="hidden" value="{{ $products->id }}" name="product_id">
                             <li class="quantity cart-plus-minus">
-                                <input type="text" value="1" name="quantity" id="quantity">
+                                <input type="text" min="1" value="1" name="quantity" id="quantity">
                             </li>
                             <li><button type="submit" class="btn btn-success">Add to Cart</button></li>
                         </form>
@@ -80,25 +83,30 @@
             </div>
             <div class="col-12">
                 <div class="tab-content">
+                    <!-- For Description-->
                     <div class="tab-pane active" id="description">
                         <div class="description-wrap">
                             <p>{!! $products->long_description !!}</p>
                         </div>
                     </div>
+
+                    <!-- FAQ-->
                     <div class="tab-pane" id="tag">
                         <div class="faq-wrap" id="accordion">
-                            <div class="card">
-                                <div class="card-header" id="headingOne">
-                                    <h5><button data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">General Inquiries ?</button> </h5>
-                                </div>
-                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                    <div class="card-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                            @foreach ($faqs as $data)
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h5><button class="{{ $loop->index == 0 ? '':'collapse' }}"  data-toggle="collapse" data-target="#collapse_{{ $data->id }}" aria-expanded="true" aria-controls="collapseOne">{{ $data->question }}</button> </h5>
+                                    </div>
+                                    <div id="collapse_{{ $data->id }}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div class="card-body">{{ $data->answer }}</div>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
+
+                    <!-- Review-->
                     <div class="tab-pane" id="review">
                         <div class="review-wrap">
                             <ul>
@@ -184,7 +192,7 @@
 <!-- single-product-area end-->
 
 
-<!-- featured-product-area start -->
+<!-- Related Product area start -->
 <div class="featured-product-area">
     <div class="container">
         <div class="row">
@@ -205,6 +213,6 @@
         </div>
     </div>
 </div>
-<!-- featured-product-area end -->
+<!-- Related Product area end -->
 
 @endsection

@@ -1,5 +1,7 @@
 @extends('backend.master')
 
+@section('title') Cupon Page || {{ title() }} @endsection
+
 @section('content')
 
 <div class="mx-auto mt-5 text-center col-6">@include('backend.components.status')
@@ -37,7 +39,7 @@
                                 <td>{{ $data->discount_amonut }}%</td>
                                 <td>{{ $data->validity }}</td>
                                 <td>
-                                    <img src="{{ asset('uploads/Cupon/'.$data->image) }}" alt="{{ $data->name }}" class="rounded-circle" style="width:50px; heigth:50px;">
+                                    <img src="{{ asset('uploads/Cupon/'.$data->image) }}" alt="{{ $data->name }}" class="rounded-circle" style="width:50px; height:50px;">
                                 </td>
                                 <td>{{ Str::limit($data->description, 40, '...') }}</td>
                                 <td>

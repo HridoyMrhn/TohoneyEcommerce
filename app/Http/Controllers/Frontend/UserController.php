@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
@@ -11,9 +12,16 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function profile(){
         return view('frontend.layouts.dashboard', [
-            'user' => User::where('id', Auth::id())->first()
+            'user' => User::where('id', Auth::id())->first(),
+            'orders' => Order::where('user_id', Auth::id())->with('orderDetails')->get(),
         ]);
     }
 

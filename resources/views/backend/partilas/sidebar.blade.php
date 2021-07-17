@@ -12,6 +12,9 @@
                             <a href="{{ route('index') }}" target="_blank"><i class="ti-dashboard"></i><span> Frontend</span></a>
                         </li>
                         <hr>
+                        <li class="{{ Route::is('info.*') ? 'active':'' }}">
+                            <a href="{{ route('info.index') }}" aria-expanded="true"><i class="ti-dashboard"></i><span> Admin Info</span></a>
+                        </li>
                         <li class="{{ Route::is('banner.*') ? 'active':'' }}">
                             <a href="{{ route('banner.index') }}" aria-expanded="true"><i class="ti-dashboard"></i><span> Banner</span></a>
                         </li>
@@ -23,6 +26,18 @@
                         </li>
                         <li class="{{ Route::is('product.*') ? 'active':'' }}">
                             <a href="{{ route('product.index') }}" aria-expanded="true"><i class="ti-dashboard"></i><span> Product</span></a>
+                        </li>
+                        <li class="{{ Route::is('order.*') ? 'active':'' }}">
+                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Orders</span></a>
+                            <ul class="collapse">
+                                <li class="{{ Route::is('order.index') ? 'active':'' }}"><a href="{{ route('order.index') }}">All Order</a></li>
+                                <li class="{{ Route::is('order.orderPending') ? 'active':'' }}">
+                                <a href="{{ route('order.orderPending') }}">New Order</a></li>
+                                <li class="{{ Route::is('order.orderAccept') ? 'active':'' }}"><a href="{{ route('order.orderAccept') }}">Accepet Order</a></li>
+                            </ul>
+                        </li>
+                        <li class="{{ Route::is('faq.*') ? 'active':'' }}">
+                            <a href="{{ route('faq.index') }}" aria-expanded="true"><i class="ti-dashboard"></i><span> FAQ</span></a>
                         </li>
                         <li class="{{ Route::is('testimonial.*') ? 'active':'' }}">
                             <a href="{{ route('testimonial.index') }}" aria-expanded="true"><i class="ti-dashboard"></i><span> Testimonial</span></a>

@@ -1,5 +1,6 @@
 @extends('backend.master')
 
+@section('title') Product Page || {{ title() }} @endsection
 
 @section('content')
 

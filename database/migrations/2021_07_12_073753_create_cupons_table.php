@@ -20,7 +20,7 @@ class CreateCuponsTable extends Migration
             $table->integer('discount_amonut');
             $table->date('validity');
             $table->text('image')->nullable();
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->string('status')->default('active');
             $table->timestamps();
         });

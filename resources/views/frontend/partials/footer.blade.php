@@ -120,6 +120,9 @@
 <script src="{{ asset('/frontend/assets/js/jquery-ui.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+<!-- select2 js -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <!-- main js -->
 <script src="{{ asset('/frontend/assets/js/scripts.js') }}"></script>
 

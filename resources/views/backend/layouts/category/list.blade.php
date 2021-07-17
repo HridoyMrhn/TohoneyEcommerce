@@ -1,8 +1,6 @@
 @extends('backend.master')
 
-@section('page_title')
-Role
-@endsection
+@section('title') Category Page || {{ title() }} @endsection
 
 @section('content')
 

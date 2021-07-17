@@ -28,6 +28,9 @@
     <!-- metisMenu.min.css -->
     <link rel="stylesheet" href="{{ asset('/frontend/assets/css/metisMenu.min.css') }}">
 
+    <!-- select2.min.css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+
     <!-- swiper.min.css -->
     <link rel="stylesheet" href="{{ asset('/frontend/assets/css/swiper.min.css') }}">
 
@@ -70,7 +73,7 @@
                 <div class="row">
                     <div class="col-md-6 col-12">
                         <ul class="d-flex header-contact">
-                            <li><i class="fa fa-phone"></i> +01 123 456 789</li>
+                            <li><i class="fa fa-phone"></i> 6565765876</li>
                             <li><i class="fa fa-envelope"></i> admin@gmail.com</li>
                         </ul>
                     </div>
@@ -114,6 +117,7 @@
                             </a>
                         </div>
                     </div>
+
                     <div class="col-lg-7 d-none d-lg-block">
                         <nav class="mainmenu">
                             <ul class="d-flex">
@@ -122,12 +126,24 @@
                                     <a href="javascript:void(0);">Category <i class="fa fa-angle-down"></i></a>
                                     <ul class="dropdown_style">
                                         @foreach (cateogries() as $data)
-                                        <li><a href="{{ route('product.category', $data->slug) }}">{{ $data->name }}</a></li>
+                                        <li>
+                                            <a href="{{ route('product.category', $data->slug) }}">{{ $data->name }}</a>
+
+                                            @if($data->subcategory->count() > 0)
+                                            <ul class="dropdown_style">
+                                                @foreach ($data->subcategory as $subCat)
+                                                <li>
+                                                    <a href="{{ route('product.category', $subCat->slug) }}">{{ $subCat->name }}</a>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                            @endif
+                                        </li>
                                         @endforeach
                                     </ul>
                                 </li>
                                 <li class="{{ Route::is('shop') ? 'active':'' }}"><a href="{{ route('shop') }}">shop</a></li>
-                                <li class="{{ Route::is('cart') ? 'active':'' }}"><a href="{{ route('cart') }}">Cart</a></li>
+                                <li class="{{ Route::is('cart.index') ? 'active':'' }}"><a href="{{ route('cart.index') }}">Cart</a></li>
                                 <li class="{{ Route::is('about') ? 'active':'' }}"><a href="{{ route('about') }}">About us</a></li>
                                 <li class="{{ Route::is('contact') ? 'active':'' }}"><a href="{{ route('contact') }}">Contact us</a></li>
                             </ul>
@@ -137,21 +153,31 @@
                         <ul class="search-cart-wrapper d-flex">
                             <li class="search-tigger"><a href="javascript:void(0);"><i class="flaticon-search"></i></a></li>
                             <li>
-                                <a href="javascript:void(0);"><i class="flaticon-shop"></i> <span>3</span></a>
+                                <a href="javascript:void(0);"><i class="flaticon-shop"></i> <span>{{ total_cart_item() }}</span></a>
                                 <ul class="cart-wrap dropdown_style">
+                                @php
+                                    $subtotal = 0;
+                                @endphp
+                                @foreach (cart_items() as $data)
                                     <li class="cart-items">
                                         <div class="cart-img">
-                                            <img src="assets/images/cart/1.jpg" alt="">
+                                            <img src="{{ asset('uploads/product/'.$data->products->image) }}" alt="" style="width: 80px; height:80px">
                                         </div>
                                         <div class="cart-content">
-                                            <a href="cart.html">Pure Nature Product</a>
-                                            <span>QTY : 1</span>
-                                            <p>$35.00</p>
+                                            <a href="{{ route('product.details', $data->products->slug) }}">{{ $data->products->name }}</a>
+                                            <span>QTY : {{ $data->quantity }}</span>
+                                            <p>U.P : {{ $data->products->price }} ৳</p>
+                                            <p>T.P : {{ $data->products->price * $data->quantity }} ৳</p>
                                             <i class="fa fa-times"></i>
                                         </div>
-                                    </li>otol: <span class="pull-right">$70.00</span></li>
+                                        @php
+                                            $subtotal += $data->products->price * $data->quantity;
+                                        @endphp
+                                    @endforeach
+                                    </li><strong>Subtotal:</strong> <span class="pull-right">{{ $subtotal }} ৳</span></li>
                                     <li>
-                                        <button>Check Out</button>
+                                        {{-- <button>Check Out</button> --}}
+                                        <a href="{{ route('cart.index') }}" class="btn btn-outline-danger">Check Out</a>
                                     </li>
                                 </ul>
                             </li>
@@ -184,7 +210,7 @@
                                     </ul>
                                 </li>
                                 <li class="{{ Route::is('shop') ? 'active':'' }}"><a href="{{ route('shop') }}">shop</a></li>
-                                <li class="{{ Route::is('cart') ? 'active':'' }}"><a href="{{ route('cart') }}">Cart</a></li>
+                                <li class="{{ Route::is('cart.index') ? 'active':'' }}"><a href="{{ route('cart.index') }}">Cart</a></li>
                                 <li class="{{ Route::is('about') ? 'active':'' }}"><a href="{{ route('about') }}">About us</a></li>
                                 <li class="{{ Route::is('contact') ? 'active':'' }}"><a href="{{ route('contact') }}">Contact us</a></li>
                             </ul>

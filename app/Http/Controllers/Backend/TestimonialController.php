@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\TestimonialForm;
 
 class TestimonialController extends Controller
 {
@@ -36,7 +37,7 @@ class TestimonialController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TestimonialForm $request)
     {
         $file_name = 'default.png';
         if(request()->hasFile('author_image')){
@@ -83,7 +84,7 @@ class TestimonialController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TestimonialForm $request, $id)
     {
         $testimonial = Testimonial::findOrFail($id);
         $file_name = $testimonial->author_image;

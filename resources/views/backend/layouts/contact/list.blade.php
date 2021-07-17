@@ -1,5 +1,7 @@
 @extends('backend.master')
 
+@section('title') Contact Page || {{ title() }} @endsection
+
 @section('content')
 
 <div class="mx-auto mt-5 text-center col-6">@include('backend.components.status')
@@ -9,8 +11,7 @@
     <div class="col-12">
         <div class="card p-0">
             <div class="card-header">
-                <h4 class="header-title d-inline">All Banner</h4>
-                <button type="button" class="btn btn-primary d-inline float-right p-2" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus"></i> Add Banner</button>
+                <h4 class="header-title d-inline">All Contact</h4>
             </div>
             <div class="card-body p-0">
                 <div class="data-tables datatable-dark">

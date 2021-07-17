@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Banner;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BannerForm;
 
 class BannerController extends Controller
 {
@@ -36,7 +37,7 @@ class BannerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BannerForm $request)
     {
         $file_name = 'banner.png';
         if(request()->hasFile('image')){

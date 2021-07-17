@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Carbon\Carbon;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\MultipleImage;
-use Carbon\Carbon;
+use App\Http\Requests\ProductForm;
+use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
@@ -41,7 +42,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductForm $request)
     {
         $file_name = 'default.png';
         if(request()->hasFile('image')){
@@ -72,8 +73,8 @@ class ProductController extends Controller
                 }
             }
         }
-        // session()->flash('s_status', 'Product has been Added!');
-        // return back();
+        session()->flash('s_status', 'Product has been Added!');
+        return back();
     }
 
     /**
@@ -105,7 +106,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductForm $request, $id)
     {
         $product = Product::findOrFail($id);
         // dd($product->multipleImage);

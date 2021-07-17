@@ -1,5 +1,7 @@
 @extends('backend.master')
 
+@section('title') Banner Page || {{ title() }} @endsection
+
 @section('content')
 
 <div class="mx-auto mt-5 text-center col-6">@include('backend.components.status')

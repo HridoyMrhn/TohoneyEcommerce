@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration
             $table->text('short_description')->nullable();
             $table->longText('long_description')->nullable();
             $table->longText('slug');
+            $table->unsignedInteger('best_sell')->default(0);
             $table->timestamps();
         });
     }

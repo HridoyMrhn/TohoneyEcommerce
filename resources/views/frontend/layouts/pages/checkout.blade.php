@@ -132,7 +132,7 @@
 
                         <ul class="payment-method">
                             <li>
-                                <input id="bank" type="radio" name="payment_gateway" value="B/C">
+                                <input id="bank" type="radio" name="payment_gateway" value="Card">
                                 <label for="bank">Direct Bank Transfer</label>
                             </li>
                             <li>

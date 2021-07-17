@@ -26,6 +26,7 @@ class CreateOrdersTable extends Migration
             $table->string('transaction_id')->nullable();
             $table->string('status')->default('pending');
             $table->string('invoice_id')->unique();
+            $table->string('payment_status')->default('Unpaid');
             $table->timestamps();
         });
     }

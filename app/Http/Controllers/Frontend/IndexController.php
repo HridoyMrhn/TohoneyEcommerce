@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Testimonial;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Http\Requests\ContactForm;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cookie;
@@ -22,7 +23,8 @@ class IndexController extends Controller
         return view('frontend.layouts.index', [
             'banners' => Banner::where('status', 'active')->latest()->limit(3)->get(),
             'categories' => Category::orderBy('name', 'desc')->get(),
-            'products' => Product::all(),
+            'products' => Product::orderBy('id', 'desc')->paginate(20),
+            'best_products' => Product::where('best_sell', '>', 0)->limit(8)->get(),
             'testimonials' => Testimonial::all(),
             // 'testimonials' => Testimonial::where('status', 'active')->latest()->limit(3)->get(),
         ]);
@@ -38,9 +40,10 @@ class IndexController extends Controller
 
 
     public function productCategory($slug){
-        return view('frontend.layouts.pages.category', [
-            'categories' => Category::where('slug', $slug)->firstOrFail()
-        ]);
+        $categories = Category::where('slug', $slug)->firstOrFail();
+        $catProducts = Product::where('category_id', $categories->id)->paginate(1);
+        // dd($catProducts);
+        return view('frontend.layouts.pages.category', compact('catProducts', 'categories'));
     }
 
 
@@ -77,5 +80,19 @@ class IndexController extends Controller
         ]);
         session()->flash('s_status', 'We Recive Your Message!');
         return back();
+    }
+
+
+    public function search(Request $request){
+        // dd($request->all());
+        $categories = Category::all();
+        $search = $request->search;
+        $catProducts = Product::where('name', 'like', '%'.$search.'%')
+                ->orWhere('price', 'like', '%'.$search.'%')
+                ->orWhere('short_description', 'like', '%'.$search.'%')
+                ->orWhere('quantity', 'like', '%'.$search.'%')
+                ->paginate(1);
+                // return $catProducts;
+        return view('frontend.layouts.pages.category', compact('catProducts', 'categories', 'search'));
     }
 }

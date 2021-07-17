@@ -55,11 +55,13 @@ Ecommerce
                                                 <th scope="col">No</th>
                                                 <th scope="col">Date</th>
                                                 <th scope="col">Cupon</th>
+                                                <th scope="col">O. Status</th>
                                                 <th scope="col">Subtotal</th>
                                                 <th scope="col">Discount</th>
                                                 <th scope="col">Total</th>
                                                 <th scope="col">Payment</th>
                                                 <th scope="col">Transaction_id</th>
+                                                <th scope="col">P. Status</th>
                                                 <th scope="col">Acton</th>
                                             </tr>
                                         </thead>
@@ -70,11 +72,29 @@ Ecommerce
                                                 <td>{{ $loop->index + 1 }}</td>
                                                 <td>{{ $data->created_at->format('Y-m-d') }}</td>
                                                 <td>{{ $data->cupon_name }}</td>
+                                                <td>
+                                                @if ($data->status == 'pending')
+                                                    @if ($data->payment_status != 'Paid')
+                                                        <a href="{{ route('order.reject', $data->id) }}" class="btn btn-sm btn-danger">Reject</a>
+                                                    @endif
+                                                @elseif ($data->status == 'accept')
+                                                    <div class="btn btn-group btn-group-sm p-0">
+                                                        <span class="btn btn-success">Accept</span>
+                                                    </div>
+                                                @endif
+                                                </td>
                                                 <td>{{ $data->subtotal }}</td>
                                                 <td>{{ $data->discount_amount }}</td>
                                                 <td>{{ $data->total }}</td>
                                                 <td>{{ $data->payment_gateway }}</td>
                                                 <td>{{ $data->transaction_id }}</td>
+                                                <td>
+                                                @if ($data->payment_status == 'Unpaid')
+                                                    <div class="badge badge-danger">Unpaid</div>
+                                                @elseif ($data->payment_status == 'Paid')
+                                                    <span class="badge badge-success">Paid</span>
+                                                @endif
+                                                </td>
                                                 <td>
                                                     <div class="btn-group btn-group-sm">
                                                         <a href="{{ route('invoice.show', $data->id) }}" class="btn btn-primary"><i class="fa fa-eye"></i></a>

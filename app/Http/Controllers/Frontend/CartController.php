@@ -27,7 +27,7 @@ class CartController extends Controller
                         $subtotal += $data->products->price * $data->quantity;
                     }
                     // echo $subtotal;
-                    if(Cupon::where('name', $cupon_name)->first()->purchase_amount < $subtotal){
+                    if(Cupon::where('name', $cupon_name)->first()->purchase_amount <= $subtotal){
                         $discount_amonut = Cupon::where('name', $cupon_name)->first()->discount_amonut;
                     } else{
                         $cupon_error = 'Youn have not a Discount!😞';

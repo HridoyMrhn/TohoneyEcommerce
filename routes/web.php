@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Backend\TestimonialController;
+use App\Http\Controllers\Frontend\StripePaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,7 @@ Route::get('/contact-us', [IndexController::class, 'contact'])->name('contact');
 Route::post('contact/store', [IndexController::class, 'contactStore'])->name('contact.store');
 Route::get('product/{slug}', [IndexController::class, 'productDetails'])->name('product.details');
 Route::get('category/{slug}', [IndexController::class, 'productCategory'])->name('product.category');
+Route::get('search', [IndexController::class, 'search'])->name('search');
 
 //========================= User Controller
 Route::get('profile', [UserController::class, 'profile'])->name('profile');
@@ -69,7 +71,12 @@ Route::group(['prefix' => 'checkout'], function () {
     Route::post('/store', [CheckoutController::class, 'store'])->name('checkout.store');
 
 });
+
 Route::get('/mail/{id}', [CheckoutController::class, 'rander'])->name('checkout.rander');
+
+//========================= Checkout Controller
+Route::get('payment/card', [StripePaymentController::class, 'stripe'])->name('stripe.payment');
+Route::post('payment/card', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
 
 
 

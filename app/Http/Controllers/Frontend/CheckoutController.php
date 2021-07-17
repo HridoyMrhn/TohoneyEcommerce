@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\OrderDetail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Mockery\Matcher\Closure;
 use App\Mail\PurcheseConfirm;
 use App\Models\BillingAddress;
 use App\Models\ShippingAddress;
@@ -18,14 +19,21 @@ use App\Http\Requests\CheckoutForm;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 
 class CheckoutController extends Controller
 {
     public function index(){
-        return view('frontend.layouts.pages.checkout',[
-        'user' => User::findOrFail(Auth::id()),
-        'countries' => Country::all()
-        ]);
+        // print_r(session()->all());
+        if(session('subtotal') != null){
+            return view('frontend.layouts.pages.checkout',[
+                'user' => User::findOrFail(Auth::id()),
+                'countries' => Country::all()
+                ]);
+        }
+        else{
+            return redirect()->route('cart.index')->with('b_status', 'Pleas, at least 1 Product Add to Cart!');
+        }
     }
 
 
@@ -41,6 +49,7 @@ class CheckoutController extends Controller
 
 
     public function store(CheckoutForm $request){
+        // dd($request->all());
         if($request->shipping_address_status){
             $billing_id = BillingAddress::insertGetId([
                 "billing_name" => $request->billing_name,
@@ -103,12 +112,18 @@ class CheckoutController extends Controller
             // Delete form Cart item
             $data->delete();
 
-            // Product Decrement
-            Product::find($data->product_id)->decrement('quantity', $data->quantity);
+            // Product Decrement/increment
+            $products = Product::find($data->product_id);
+            $products->decrement('quantity', $data->quantity);
+            $products->increment('best_sell', 1);
         }
 
-        $order_details = OrderDetail::where('order_id', $order_id)->get();
-        Mail::to(Auth::user()->email)->send(new PurcheseConfirm(Auth::user()->name, $order_details));
+        // $order_details = OrderDetail::where('order_id', $order_id)->get();
+        // Mail::to(Auth::user()->email)->send(new PurcheseConfirm(Auth::user()->name, $order_details));
+        if($request->payment_gateway == 'Card'){
+            session(['order_id' => $order_id]);
+            return redirect()->route('stripe.payment');
+        }
         return redirect()->route('profile')->with('s_status', "Your Ordred Succesfully!");
     }
 

@@ -45,6 +45,7 @@
 
     <!-- modernizr css -->
     <script src="{{ asset('/frontend/assets/js/vendor/modernizr-2.8.3.min.js') }}"></script>
+    @yield('css')
 </head>
 <body>
 
@@ -130,7 +131,7 @@
                                         <li>
                                             <a href="{{ route('product.category', $data->slug) }}">{{ $data->name }}</a>
 
-                                            @if($data->subcategory->count() > 0)
+                                            {{-- @if($data->subcategory->count() > 0)
                                             <ul class="dropdown_style">
                                                 @foreach ($data->subcategory as $subCat)
                                                 <li>
@@ -138,7 +139,7 @@
                                                 </li>
                                                 @endforeach
                                             </ul>
-                                            @endif
+                                            @endif --}}
                                         </li>
                                         @endforeach
                                     </ul>

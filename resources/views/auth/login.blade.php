@@ -2,6 +2,10 @@
 
 @section('content')
 <div class="container">
+
+    <div class="mx-auto mt-5 text-center col-6">@include('backend.components.status')
+    </div>
+
     <div class="row justify-content-center my-5">
         <div class="col-md-8">
             <div class="card">
@@ -58,14 +62,9 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group row mb-0">
+                        <div class="form-group row mt-3 mb-0">
                             <div class="col-md-8 offset-md-2 text-center">
-                                <div class="btn btn-group">
-                                    <a href="{{ route('github.login') }}" class="btn btn-dark">
-                                        <i class="fa fa-github"></i> Github</a>
-                                    <a href="" class="btn btn-danger">
-                                        <i class="fa fa-google"></i> Google</a>
-                                </div>
+                                <a href="{{ route('github.login') }}" class="btn btn-dark d-block"><i class="fa fa-github"></i> Login with Github</a>
                             </div>
                         </div>
                     </form>

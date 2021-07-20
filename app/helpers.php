@@ -12,8 +12,11 @@ use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
 
+    // function cateogries(){
+    //     return Category::where('parent_id',null)->with('subcategory')->orderBy('name', 'desc')->get();
+    // }
     function cateogries(){
-        return Category::where('parent_id',null)->with('subcategory')->orderBy('name', 'desc')->get();
+        return Category::with('subcategory')->orderBy('name', 'desc')->get();
     }
 
     function total_cart_item(){

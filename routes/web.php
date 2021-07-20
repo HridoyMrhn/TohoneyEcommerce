@@ -14,6 +14,7 @@ use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Backend\ContactController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Frontend\InvoiceController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Backend\NewsletterController;
 use App\Http\Controllers\Frontend\SocialiteController;
@@ -86,13 +87,16 @@ Route::get('/mail/{id}', [CheckoutController::class, 'rander'])->name('checkout.
 Route::get('payment/card', [StripePaymentController::class, 'stripe'])->name('stripe.payment');
 Route::post('payment/card', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
 
+//========================= Invoice Controller
+Route::get('invoice/{id}', [InvoiceController::class, 'invoice'])->name('invoice.show');
+Route::get('invoice/download/{id}', [InvoiceController::class, 'invoiceDownload'])->name('invoice.download');
 
 
 
 
 
 //================ Backend all Controller =================
-Route::prefix('admin')->group(function() {
+Route::prefix('admin')->middleware('admin')->group(function() {
     Route::get('/', [AdminController::class, 'dashbaord'])->name('dashbaord');
 
     //========================= Category Controller
@@ -130,8 +134,6 @@ Route::prefix('admin')->group(function() {
     Route::get('order/accept', [OrderController::class, 'orderAccept'])->name('order.orderAccept');
     Route::get('order/pending', [OrderController::class, 'orderPending'])->name('order.orderPending');
     Route::resource('order', OrderController::class);
-    Route::get('invoice/{id}', [OrderController::class, 'invoice'])->name('invoice.show');
-    Route::get('invoice/download/{id}', [OrderController::class, 'invoiceDownload'])->name('invoice.download');
 
     //========================= Info Controller
     Route::resource('info', InfoController::class);

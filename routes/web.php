@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Backend\NewsletterController;
+use App\Http\Controllers\Frontend\SocialiteController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Frontend\StripePaymentController;
 
@@ -59,6 +60,10 @@ Route::post('profile/update/', [UserController::class, 'updateProfile'])->name('
 Route::post('password/change/', [UserController::class, 'updatePassword'])->name('password.change');
 
 //========================= User Controller
+Route::get('auth/github', [SocialiteController::class, 'gitRedirect'])->name('github.login');
+Route::get('login/github/callback', [SocialiteController::class, 'gitCallback']);
+
+//========================= Cart Controller
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('cart.index');
     Route::get('/{cupon_name}', [CartController::class, 'index'])->name('cart.cuponName');

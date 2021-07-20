@@ -58,6 +58,16 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-2 text-center">
+                                <div class="btn btn-group">
+                                    <a href="{{ route('github.login') }}" class="btn btn-dark">
+                                        <i class="fa fa-github"></i> Github</a>
+                                    <a href="" class="btn btn-danger">
+                                        <i class="fa fa-google"></i> Google</a>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

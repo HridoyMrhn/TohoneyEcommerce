@@ -27,7 +27,6 @@
                             <img src="{{ asset('uploads/multiple_image/'.$data->multiple_image) }}" alt="{{ $data->name }}">
                         </div>
                     @endforeach
-
                     </div>
                 </div>
             </div>
@@ -37,12 +36,14 @@
                     <div class="rating-wrap fix">
                         <span class="pull-left">৳ {{ $products->price }}</span>
                         <ul class="rating pull-right">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li>(05 Customar Review)</li>
+                        @if (total_rating($products->id) == 0)
+                            No Review Yet!
+                        @else
+                            @for ($i = 0; $i < total_rating($products->id); $i++)
+                                <li><i class="fa fa-star"></i></li>
+                            @endfor
+                        @endif
+                            <li>({{ total_review($products->id) }} Customar Review)</li>
                         </ul>
                     </div>
                     <p>{{ $products->short_description }}</p>
@@ -107,82 +108,89 @@
                     </div>
 
                     <!-- Review-->
+
                     <div class="tab-pane" id="review">
-                        <div class="review-wrap">
+                        <div class="review-wrap mb-5">
                             <ul>
-                                <li class="review-items">
+                            @foreach ($reviews as $data)
+                                <li class="review-items mb-5">
                                     <div class="review-img">
-                                        <img src="assets/images/comment/1.png" alt="">
+                                        <img src="{{ asset('uploads/user/'.$data->user->image) }}" alt="" class="rounded-circle" style="width:80px; height:80px; line-height:80px">
                                     </div>
                                     <div class="review-content">
-                                        <h3><a href="#">GERALD BARNES</a></h3>
-                                        <span>27 Jun, 2019 at 2:30pm</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan egestas elese ifend. Phasellus a felis at estei to bibendum feugiat ut eget eni Praesent et messages in con sectetur posuere dolor non.</p>
+                                        <h3>{{ $data->user->name }}</h3>
+                                        <span>{{ $data->updated_at->format('F j, Y, g:i a') }}</span>
+                                        <p>{{ $data->review }}</p>
                                         <ul class="rating">
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
+                                            @for ($i = 0; $i < $data->rating; $i++)
+                                                <li><i class="fa fa-star"></i></li>
+                                            @endfor
                                         </ul>
                                     </div>
                                 </li>
+                            @endforeach
                             </ul>
                         </div>
-                        <div class="add-review">
-                            <h4>Add A Review</h4>
-                            <div class="ratting-wrap">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>task</th>
-                                            <th>1 Star</th>
-                                            <th>2 Star</th>
-                                            <th>3 Star</th>
-                                            <th>4 Star</th>
-                                            <th>5 Star</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>How Many Stars?</td>
-                                            <td>
-                                                <input type="radio" name="a" />
-                                            </td>
-                                            <td>
-                                                <input type="radio" name="a" />
-                                            </td>
-                                            <td>
-                                                <input type="radio" name="a" />
-                                            </td>
-                                            <td>
-                                                <input type="radio" name="a" />
-                                            </td>
-                                            <td>
-                                                <input type="radio" name="a" />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        @auth
+                            <div class="add-review">
+                            @if ($review_status == 1)
+                                <h4>Add A Review </h4>
+                                <form action="{{ route('review.submit', $order_id) }}" method="post">
+                                    @csrf
+                                    <div class="ratting-wrap">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>task</th>
+                                                    <th>1 Star</th>
+                                                    <th>2 Star</th>
+                                                    <th>3 Star</th>
+                                                    <th>4 Star</th>
+                                                    <th>5 Star</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>How Many Stars?</td>
+                                                    <td>
+                                                        <input type="radio" name="rating" value="1">
+                                                    </td>
+                                                    <td>
+                                                        <input type="radio" name="rating" value="2">
+                                                    </td>
+                                                    <td>
+                                                        <input type="radio" name="rating" value="3">
+                                                    </td>
+                                                    <td>
+                                                        <input type="radio" name="rating" value="4">
+                                                    </td>
+                                                    <td>
+                                                        <input type="radio" name="rating" value="5">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4>Your Review:</h4>
+                                            <textarea name="review" id="review" rows="5" placeholder="Your Review Here..."></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn-style">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            @endif
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 col-12">
-                                    <h4>Name:</h4>
-                                    <input type="text" placeholder="Your name here..." />
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <h4>Email:</h4>
-                                    <input type="email" placeholder="Your Email here..." />
-                                </div>
-                                <div class="col-12">
-                                    <h4>Your Review:</h4>
-                                    <textarea name="massage" id="massage" cols="30" rows="10" placeholder="Your review here..."></textarea>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn-style">Submit</button>
-                                </div>
+                        @else
+                            <div class="add-review">
+                                <h4>Add A Review</h4>
+                                <h3 class="text-center">
+                                    <a href="{{ route('login') }}" class="text-danger font-weight-bold">Please Login or Reagistration First!</a>
+                                </h3>
                             </div>
-                        </div>
+                        @endauth
                     </div>
                 </div>
             </div>

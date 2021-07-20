@@ -19,6 +19,9 @@
     <script src="{{ asset('backend/assets/js/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/jquery.slicknav.min.js') }}"></script>
 
+    <!-- Chart js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- Datatable js -->
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
@@ -47,6 +50,7 @@
     <!-- others plugins -->
     <script src="{{ asset('backend/assets/js/plugins.js') }}"></script>
     <script src="{{ asset('backend/assets/js/scripts.js') }}"></script>
+    @yield('js')
 
 </body>
 </html>

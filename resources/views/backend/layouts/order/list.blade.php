@@ -52,11 +52,15 @@
                                     @if ($data->status == 'pending')
                                         <div class="btn btn-group btn-group-sm p-0">
                                             <a href="{{ route('order.accept', $data->id) }}" class="btn btn-info">Pending</a>
-                                            <a href="{{ route('order.reject', $data->id) }}" class="btn btn-danger">Reject</a>
+                                            <a href="{{ route('order.cancel', $data->id) }}" class="btn btn-danger">Cancel</a>
                                         </div>
                                     @elseif ($data->status == 'accept')
                                         <div class="btn btn-group btn-group-sm p-0">
                                             <span class="btn btn-success">Accept</span>
+                                        </div>
+                                    @elseif ($data->status == 'cancel')
+                                        <div class="btn btn-group-sm p-0">
+                                            <span class="btn btn-danger">Cancel</span>
                                         </div>
                                     @endif
                                 </td>

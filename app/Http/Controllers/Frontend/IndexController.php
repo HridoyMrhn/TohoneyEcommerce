@@ -7,11 +7,15 @@ use App\Models\Banner;
 use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\OrderDetail;
 use App\Models\Testimonial;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContactForm;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NewsletterForm;
+use App\Models\Newsletter;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 
 class IndexController extends Controller
@@ -39,6 +43,16 @@ class IndexController extends Controller
     }
 
 
+    public function about(){
+        return view('frontend.layouts.pages.about');
+    }
+
+
+    public function contact(){
+        return view('frontend.layouts.pages.contact');
+    }
+
+
     public function productCategory($slug){
         $categories = Category::where('slug', $slug)->firstOrFail();
         $catProducts = Product::where('category_id', $categories->id)->paginate(1);
@@ -49,20 +63,30 @@ class IndexController extends Controller
 
     public function productDetails($slug){
         $products = Product::where('slug', $slug)->firstOrFail();
-        $related_products = Product::where('category_id', $products->category_id)->orderBy('id', 'desc')->limit(4)->get();
+        $related_products = Product::where('category_id', $products->category_id)->where('id', '!=', $products->id)->orderBy('id', 'desc')->limit(4)->get();
         $faqs = Faq::all();
-        // dd($related_products);
-        return view('frontend.layouts.pages.product-details', compact('products', 'related_products', 'faqs'));
+
+        $review_status = 0;
+        if(OrderDetail::where('user_id', Auth::id())->where('product_id', $products->id)->whereNull('rating')->exists()){
+            $review_status = 1;
+            $order_id = OrderDetail::where('user_id', Auth::id())->where('product_id', $products->id)->whereNull('rating')->first()->id;
+        } else{
+            $review_status = 0;
+            $order_id = 0;
+        }
+
+        $reviews = OrderDetail::where('product_id', $products->id)->whereNotNull('rating')->get();
+        return view('frontend.layouts.pages.product-details', compact('products', 'related_products', 'faqs', 'review_status', 'order_id', 'reviews'));
     }
 
 
-    public function about(){
-        return view('frontend.layouts.pages.about');
-    }
-
-
-    public function contact(){
-        return view('frontend.layouts.pages.contact');
+    public function review(Request $request, $id){
+        // dd($request->all());
+        OrderDetail::find($id)->update([
+            'review' => $request->review,
+            'rating' => $request->rating
+        ]);
+        return back()->with('s_status', 'Thanks For Review!');
     }
 
 
@@ -94,5 +118,14 @@ class IndexController extends Controller
                 ->paginate(1);
                 // return $catProducts;
         return view('frontend.layouts.pages.category', compact('catProducts', 'categories', 'search'));
+    }
+
+
+    public function subscribeNewsletter(NewsletterForm $request){
+        Newsletter::create([
+            'email' => $request->email
+        ]);
+        session()->flash('s_status', 'Thanks for Subscribed Our Newsletter');
+        return back();
     }
 }

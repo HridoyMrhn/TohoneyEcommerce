@@ -169,7 +169,7 @@
                                             <span>QTY : {{ $data->quantity }}</span>
                                             <p>U.P : {{ $data->products->price }} ৳</p>
                                             <p>T.P : {{ $data->products->price * $data->quantity }} ৳</p>
-                                            <i class="fa fa-times"></i>
+                                            <a href="{{ route('cart.destroy', $data->id) }}"><i class="fa fa-times"></i></a>
                                         </div>
                                         @php
                                             $subtotal += $data->products->price * $data->quantity;

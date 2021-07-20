@@ -6,6 +6,8 @@ use App\Models\Order;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\OrderDetail;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
@@ -25,9 +27,15 @@ class OrderController extends Controller
     }
 
 
-    public function reject($id){
-        Order::findOrFail($id)->delete();
-        session()->flash('b_status', 'Order has been Deleted');
+    public function cancel($id){
+        $order_deatil = OrderDetail::where('order_id', $id)->get();
+        foreach($order_deatil as $data){
+            Product::find($data->product_id)->increment('quantity', $data->product_quantity);
+        };
+        Order::findOrFail($id)->update([
+            'status' => 'cancel'
+        ]);
+        session()->flash('b_status', 'Order has been Canceled!');
         return back();
     }
 

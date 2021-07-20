@@ -26,6 +26,7 @@
                                     <th scope="col">Image</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Quantity</th>
+                                    <th scope="col">Q.Alert</th>
                                     <th scope="col">info</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -33,9 +34,12 @@
                         </thead>
                         <tbody>
                             @forelse ($products as $data)
-                            <tr>
+                            <tr class="{{ $data->quantity_alert >= $data->quantity ? 'bg bg-warning':'' }}">
                                 <td>{{ $products->firstItem() + $loop->index }}</td>
-                                <td>{{ $data->name }}</td>
+                                <td>
+                                    {{ $data->name }}
+                                    <div class=" text-danger font-weight-bold">{{ $data->quantity_alert >= $data->quantity ? 'Please add more Product to your Inventory!':'' }}</div>
+                                </td>
                                 <td>
                                     @isset($data->category->name)
                                     {{ $data->category->name }}
@@ -46,6 +50,7 @@
                                 </td>
                                 <td>{{ $data->price }}</td>
                                 <td>{{ $data->quantity }}</td>
+                                <td>{{ $data->quantity_alert }}</td>
                                 <td>{{ Str::limit($data->short_description, 40, '...') }}</td>
                                 <td>
                                     <div class="btn-group btn-group-sm" role="group">
@@ -148,7 +153,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                             @empty
                             <tr>

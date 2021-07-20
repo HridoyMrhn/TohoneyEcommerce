@@ -1,12 +1,3 @@
-{{-- @component('mail::message')
-# Hi, {{ $user_name }}
-
-@component('mail::panel')
-This is the panel content.
-@endcomponent
-
-@endcomponent --}}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,9 +44,9 @@ This is the panel content.
                     <tr>
                         <td class="body" width="100%" cellpadding="0" cellspacing="0"
                             style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #edf2f7; border-bottom: 1px solid #edf2f7; border-top: 1px solid #edf2f7; margin: 0; padding: 0; width: 100%;">
-                            <table class="inner-body" align="center" width="570" cellpadding="0"
+                            <table class="inner-body" align="center" width="800" cellpadding="0"
                                 cellspacing="0" role="presentation"
-                                style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; background-color: #ffffff; border-color: #e8e5ef; border-radius: 2px; border-width: 1px; box-shadow: 0 2px 0 rgba(0, 0, 150, 0.025), 2px 4px 0 rgba(0, 0, 150, 0.015); margin: 0 auto; padding: 0; width: 570px;">
+                                style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; background-color: #ffffff; border-color: #e8e5ef; border-radius: 2px; border-width: 1px; box-shadow: 0 2px 0 rgba(0, 0, 150, 0.025), 2px 4px 0 rgba(0, 0, 150, 0.015); margin: 0 auto; padding: 0; width: 800px;">
                                 <!-- Body content -->
                                 <tr>
                                     <td class="content-cell"
@@ -76,24 +67,56 @@ This is the panel content.
                                                         <th align="center"
                                                             style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-bottom: 1px solid #edeff2; margin: 0; padding-bottom: 8px;">
                                                             Name</th>
-                                                        <th align="right"
-                                                            style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-bottom: 1px solid #edeff2; margin: 0; padding-bottom: 8px;">
+                                                        <th align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-bottom: 1px solid #edeff2; margin: 0; padding-bottom: 8px;">
                                                             Price</th>
+                                                        <th align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-bottom: 1px solid #edeff2; margin: 0; padding-bottom: 8px;">
+                                                            Quantity</th>
+                                                        <th align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-bottom: 1px solid #edeff2; margin: 0; padding-bottom: 8px;">
+                                                            Total Price</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody
                                                     style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
-                                                    @foreach ($order_info as $data)
+                                                    @php
+                                                        $subtotal = 0;
+                                                    @endphp
+                                                    @foreach ($order_info->orderDetails as $data)
                                                     <tr>
                                                         <td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #74787e; font-size: 15px; line-height: 18px; margin: 0; padding: 10px 0;">
                                                             {{ $loop->index + 1 }}</td>
                                                         <td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #74787e; font-size: 15px; line-height: 18px; margin: 0; padding: 10px 0;">
-                                                            {{ $data->orderDetails->name }} </td>
-                                                        <td align="right"
-                                                            style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #74787e; font-size: 15px; line-height: 18px; margin: 0; padding: 10px 0;">
-                                                            {{ $data->orderDetails->price }} </td>
+                                                            {{ $data->orderProducts->name }} </td>
+                                                        <td align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #74787e; font-size: 15px; line-height: 18px; margin: 0; padding: 10px 0;">
+                                                            {{ $data->orderProducts->price }} </td>
+                                                        <td align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #74787e; font-size: 15px; line-height: 18px; margin: 0; padding: 10px 0;">
+                                                            {{ $data->product_quantity }} </td>
+                                                        <td align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #74787e; font-size: 15px; line-height: 18px; margin: 0; padding: 10px 0;">
+                                                            {{ $data->orderProducts->price * $data->product_quantity }} </td>
+                                                            @php
+                                                                $subtotal += $data->orderProducts->price * $data->product_quantity
+                                                            @endphp
                                                     </tr>
                                                     @endforeach
+                                                    <tr>
+                                                        <td colspan='3'></td>
+                                                        <td align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;  margin: 0; padding-bottom: 8px;">Subtotal</td>
+                                                        <td align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #74787e; font-size: 15px; line-height: 18px; margin: 0; padding: 10px 0;">{{ $order_info->subtotal }} ৳</td>
+                                                    </tr>
+                                                    <tr style="border-top-color: 5px solid red;">
+                                                        <td colspan='3'></td>
+                                                        <td align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;  margin: 0; padding-bottom: 8px;">Dicount</td>
+                                                        <td align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #74787e; font-size: 15px; line-height: 18px; margin: 0; padding: 10px 0;">{{ $order_info->discount_amount }} ৳</td>
+                                                    </tr>
+                                                    <tr style="border-top-color: 5px solid red;">
+                                                        <td colspan='3'></td>
+                                                        <td align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;  margin: 0; padding-bottom: 8px;">Delivary Charge</td>
+                                                        <td align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #74787e; font-size: 15px; line-height: 18px; margin: 0; padding: 10px 0;">100 ৳</td>
+                                                    </tr>
+                                                    <tr style="border-top-color: 5px solid red;">
+                                                        <td colspan='3'></td>
+                                                        <td align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;  margin: 0; padding-bottom: 8px;">Total</td>
+                                                        <td align="right" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #74787e; font-size: 15px; line-height: 18px; margin: 0; padding: 10px 0;">{{ $order_info->total }} ৳</td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -114,10 +137,8 @@ This is the panel content.
                                 <tr>
                                     <td class="content-cell" align="center"
                                         style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
-                                        <p
-                                            style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; color: #b0adc5; font-size: 12px; text-align: center;">
+                                        <p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; color: #b0adc5; font-size: 12px; text-align: center;">
                                             © 2021 Ecommerce. All rights reserved.</p>
-
                                     </td>
                                 </tr>
                             </table>

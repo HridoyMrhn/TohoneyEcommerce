@@ -15,11 +15,13 @@
             <h3><a href="{{ route('product.details', $data->slug) }}">{{ $data->name }}</a></h3>
             <p class="pull-left">${{ $data->price }}</p>
             <ul class="pull-right pr-2 d-flex">
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star"></i></li>
-                <li><i class="fa fa-star-half-o"></i></li>
+            @if (total_rating($data->id) == 0)
+                No Review Yet!
+            @else
+                @for ($i = 0; $i < total_rating($data->id); $i++)
+                    <li><i class="fa fa-star"></i></li>
+                @endfor
+            @endif
             </ul>
         </div>
     </div>

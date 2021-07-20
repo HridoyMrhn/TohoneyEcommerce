@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <h2>Best Sells</h2>
+                    <h2>Best Sell</h2>
                     <img src="assets/images/section-title.png" alt="">
                 </div>
             </div>

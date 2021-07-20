@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\ContactController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Backend\NewsletterController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Frontend\StripePaymentController;
 
@@ -49,11 +50,13 @@ Route::post('contact/store', [IndexController::class, 'contactStore'])->name('co
 Route::get('product/{slug}', [IndexController::class, 'productDetails'])->name('product.details');
 Route::get('category/{slug}', [IndexController::class, 'productCategory'])->name('product.category');
 Route::get('search', [IndexController::class, 'search'])->name('search');
+Route::post('review/submit/{id}', [IndexController::class, 'review'])->name('review.submit');
+Route::post('subscribe/newsletter', [IndexController::class, 'subscribeNewsletter'])->name('subscribe.newsletter');
 
 //========================= User Controller
 Route::get('profile', [UserController::class, 'profile'])->name('profile');
 Route::post('profile/update/', [UserController::class, 'updateProfile'])->name('profile.update');
-Route::post('password/update/', [UserController::class, 'updatePassword'])->name('password.update');
+Route::post('password/change/', [UserController::class, 'updatePassword'])->name('password.change');
 
 //========================= User Controller
 Route::prefix('cart')->group(function () {
@@ -77,6 +80,7 @@ Route::get('/mail/{id}', [CheckoutController::class, 'rander'])->name('checkout.
 //========================= Checkout Controller
 Route::get('payment/card', [StripePaymentController::class, 'stripe'])->name('stripe.payment');
 Route::post('payment/card', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
+
 
 
 
@@ -116,15 +120,18 @@ Route::prefix('admin')->group(function() {
     Route::get('contact/download/{id}', [ContactController::class, 'download'])->name('contact.download');
 
     //========================= Order Controller
-    Route::resource('order', OrderController::class);
     Route::get('order/accept/{id}', [OrderController::class, 'accept'])->name('order.accept');
-    Route::get('order/reject/{id}', [OrderController::class, 'reject'])->name('order.reject');
-    Route::get('accept/list', [OrderController::class, 'orderAccept'])->name('order.orderAccept');
-    Route::get('pending/list', [OrderController::class, 'orderPending'])->name('order.orderPending');
+    Route::get('order/cancel/{id}', [OrderController::class, 'cancel'])->name('order.cancel');
+    Route::get('order/accept', [OrderController::class, 'orderAccept'])->name('order.orderAccept');
+    Route::get('order/pending', [OrderController::class, 'orderPending'])->name('order.orderPending');
+    Route::resource('order', OrderController::class);
     Route::get('invoice/{id}', [OrderController::class, 'invoice'])->name('invoice.show');
     Route::get('invoice/download/{id}', [OrderController::class, 'invoiceDownload'])->name('invoice.download');
 
     //========================= Info Controller
     Route::resource('info', InfoController::class);
 
+    //========================= Newsletter Controller
+    Route::resource('newsletter', NewsletterController::class);;
+    Route::get('nw/send', [NewsletterController::class, 'send'])->name('newsletter.send');
 });

@@ -11,7 +11,6 @@ use App\Models\Product;
 use App\Models\OrderDetail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Mockery\Matcher\Closure;
 use App\Mail\PurcheseConfirm;
 use App\Models\BillingAddress;
 use App\Models\ShippingAddress;
@@ -94,7 +93,7 @@ class CheckoutController extends Controller
             'payment_gateway' => $request->payment_gateway,
             'discount_amount' => session('discount_amonut'),
             'subtotal' => session('subtotal'),
-            'total' => session('subtotal') - session('discount_amonut'),
+            'total' => session('subtotal') - session('discount_amonut') + 100,
             'transaction_id' => $request->transaction_id,
             'invoice_id' => Str::random(10),
             "created_at" => Carbon::now()
@@ -104,6 +103,7 @@ class CheckoutController extends Controller
             // echo $data;
             OrderDetail::create([
                 "order_id" => $order_id,
+                'user_id' => Auth::id(),
                 "product_id" => $data->product_id,
                 "product_price" => $data->products->price,
                 "product_quantity" => $data->quantity,
@@ -119,7 +119,8 @@ class CheckoutController extends Controller
         }
 
         // $order_details = OrderDetail::where('order_id', $order_id)->get();
-        // Mail::to(Auth::user()->email)->send(new PurcheseConfirm(Auth::user()->name, $order_details));
+        $order_details = Order::findOrFail($order_id);
+        Mail::to(Auth::user()->email)->send(new PurcheseConfirm(Auth::user()->name, $order_details));
         if($request->payment_gateway == 'Card'){
             session(['order_id' => $order_id]);
             return redirect()->route('stripe.payment');
@@ -129,8 +130,7 @@ class CheckoutController extends Controller
 
 
     public function rander($id){
-        $id = 1;
-        $order_details = OrderDetail::findOrFail($id);
+        $order_details = Order::findOrFail($id);
         return (new PurcheseConfirm(Auth::user()->name, $order_details))->render();
     }
 }

@@ -1,8 +1,9 @@
 @extends('frontend.master-home')
-@section('home')
-active
-@endsection
+
 @section('content')
+
+<div class="mx-auto mt-5 text-center col-6">@include('backend.components.status')
+</div>
 
 @include('frontend.layouts.component.slider')
 @include('frontend.layouts.component.featured')

@@ -65,7 +65,7 @@ class CartController extends Controller
                     'quantity' => $request->quantity,
                 ]);
             }
-            session()->flash('s_status', 'Category has been Updated!');
+            session()->flash('s_status', 'Product add to Cart Successfully!');
             return back();
         } else{
             return back()->with('b_status', 'Please Quantity minimum can be 1');

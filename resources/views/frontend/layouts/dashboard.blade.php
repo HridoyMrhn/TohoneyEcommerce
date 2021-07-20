@@ -65,7 +65,7 @@ Ecommerce
                                                 <th scope="col">Acton</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="text-center">
                                             @forelse ($orders as $key => $data)
                                             {{-- {{ $orders->orderDetails }} --}}
                                             <tr>
@@ -75,8 +75,15 @@ Ecommerce
                                                 <td>
                                                 @if ($data->status == 'pending')
                                                     @if ($data->payment_status != 'Paid')
-                                                        <a href="{{ route('order.reject', $data->id) }}" class="btn btn-sm btn-danger">Reject</a>
+                                                    <div class="btn btn-group btn-group-sm">
+                                                        <span class="btn btn-warning">Pending</span>
+                                                        <a href="{{ route('order.cancel', $data->id) }}" class="btn btn-sm btn-danger">Cancel</a>
+                                                    </div>
                                                     @endif
+                                                @elseif ($data->status == 'cancel')
+                                                    <div class="btn btn-group btn-group-sm p-0">
+                                                        <span class="btn btn-danger">Cancel</span>
+                                                    </div>
                                                 @elseif ($data->status == 'accept')
                                                     <div class="btn btn-group btn-group-sm p-0">
                                                         <span class="btn btn-success">Accept</span>
@@ -89,10 +96,10 @@ Ecommerce
                                                 <td>{{ $data->payment_gateway }}</td>
                                                 <td>{{ $data->transaction_id }}</td>
                                                 <td>
-                                                @if ($data->payment_status == 'Unpaid')
-                                                    <div class="badge badge-danger">Unpaid</div>
-                                                @elseif ($data->payment_status == 'Paid')
+                                                @if (!empty($data->transaction_id) or $data->payment_gateway == 'card')
                                                     <span class="badge badge-success">Paid</span>
+                                                @else
+                                                    <span class="badge badge-danger">Unpaid</span>
                                                 @endif
                                                 </td>
                                                 <td>
@@ -218,7 +225,7 @@ Ecommerce
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="{{ route('password.update') }}">
+            <form method="POST" action="{{ route('password.change') }}">
                 @csrf
                 <div class="modal-body p-5">
                     <div class="form-group">
